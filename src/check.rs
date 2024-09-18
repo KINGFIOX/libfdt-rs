@@ -22,11 +22,19 @@ impl FdtHeader {
     }
 
     /// check if writable
-    pub fn rw_probe(&mut self) -> Result<(), DTBErr> {
+    pub fn rw_probe(&mut self) -> Result<(), FDTErr> {
         if assume(Assume::ValidDtb) {
             return Ok(());
         }
-        todo!()
+        Self::ro_probe(self)?;
+        if !assume(Assume::Latest) && self.version.to_le() < 17 {
+            return Err(Into::into(DTBErr::BadVersion));
+        }
+        Self::check_ordered(self, size_of::<FdtReserveEntry>() as u32)?;
+        if !assume(Assume::Latest) && self.version.to_le() > 17 {
+            self.version = fdt32::to_be(17);
+        }
+        Ok(())
     }
 
     pub fn ro_probe(&self) -> Result<(), FDTErr> {

@@ -1,6 +1,8 @@
 //! Definitions of structs and enums from specification of the device tree.
 //! reference to https://github.com/riscv-software-src/opensbi/blob/master/lib/utils/libfdt/fdt.h
 
+use super::*;
+
 /// .
 #[repr(C)]
 pub struct FdtHeader {
@@ -74,24 +76,5 @@ pub const FDT_V17_SIZE: usize = FDT_V16_SIZE + size_of::<fdt32>();
 /* ---------- ---------- magic number ---------- ---------- */
 
 pub const MAGIC: u32 = 0xd00d_feed;
-
-/* ---------- ---------- big endian ---------- ---------- */
-
-/// A simple struct to represent a device tree.(big endian)
-#[allow(non_camel_case_types)]
-#[repr(C)]
-#[derive(Clone, Copy)]
-pub struct fdt32(u32);
-
-impl fdt32 {
-    pub fn to_le(&self) -> u32 {
-        self.0.swap_bytes()
-    }
-}
-
-#[allow(non_camel_case_types)]
-#[repr(C)]
-#[derive(Clone, Copy)]
-pub struct fdt64(u64);
 
 /* ---------- ---------- some structure ---------- ---------- */
