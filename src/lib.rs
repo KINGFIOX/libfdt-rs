@@ -1,6 +1,6 @@
 #![no_std]
 
-mod common;
+mod config;
 mod errors;
 mod spec;
 
@@ -11,4 +11,4 @@ pub use errors::*;
 pub use spec::*;
 
 #[allow(unused)]
-pub use common::*;
+pub use config::*;

@@ -1,3 +1,6 @@
+//! Definitions of structs and enums from the device tree specification.
+//! reference to https://github.com/riscv-software-src/opensbi/blob/master/lib/utils/libfdt/libfdt.h
+
 pub enum FDTErr {
     InfoErr(InfoErr),
     ParamErr(ParamErr),
