@@ -3,6 +3,7 @@
 mod config;
 mod errors;
 mod spec;
+mod internal;
 
 #[allow(unused)]
 pub use errors::*;
@@ -12,3 +13,6 @@ pub use spec::*;
 
 #[allow(unused)]
 pub use config::*;
+
+#[allow(unused)]
+pub use internal::*;

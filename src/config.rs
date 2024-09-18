@@ -1,7 +1,5 @@
 //! something could config
 
-use super::*;
-
 /* ---------- ---------- version ---------- ---------- */
 
 pub const FIRST_SUPPORTED_VERSION: u32 = 0x02;
