@@ -5,6 +5,11 @@ mod spec;
 mod check;
 mod utils;
 
+mod assume;
+
+#[allow(unused)]
+use assume::*;
+
 #[allow(unused)]
 use utils::*;
 
