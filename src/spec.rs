@@ -1,4 +1,4 @@
-//! Definitions of structs and enums from the device tree specification.
+//! Definitions of structs and enums from specification of the device tree.
 //! reference to https://github.com/riscv-software-src/opensbi/blob/master/lib/utils/libfdt/fdt.h
 
 /// .
@@ -82,6 +82,12 @@ pub const MAGIC: u32 = 0xd00d_feed;
 #[repr(C)]
 #[derive(Clone, Copy)]
 pub struct fdt32(u32);
+
+impl fdt32 {
+    pub fn to_le(&self) -> u32 {
+        self.0.swap_bytes()
+    }
+}
 
 #[allow(non_camel_case_types)]
 #[repr(C)]

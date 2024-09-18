@@ -2,12 +2,20 @@
 
 mod errors;
 mod spec;
+mod check;
+mod utils;
 
 #[allow(unused)]
-pub use errors::*;
+use utils::*;
 
 #[allow(unused)]
-pub use spec::*;
+use check::*;
+
+#[allow(unused)]
+use errors::*;
+
+#[allow(unused)]
+use spec::*;
 
 // pub mod config;
 #[allow(unused)]
