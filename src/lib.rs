@@ -23,5 +23,4 @@ use errors::*;
 use spec::*;
 
 // pub mod config;
-#[allow(unused)]
 mod config;

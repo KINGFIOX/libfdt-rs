@@ -96,3 +96,27 @@ pub enum ContentErr {
     /// The device tree base address is not 8-byte aligned.
     Alignment,
 }
+
+impl From<InfoErr> for FDTErr {
+    fn from(value: InfoErr) -> Self {
+        Self::InfoErr(value)
+    }
+}
+
+impl From<ParamErr> for FDTErr {
+    fn from(value: ParamErr) -> Self {
+        Self::ParamErr(value)
+    }
+}
+
+impl From<DTBErr> for FDTErr {
+    fn from(value: DTBErr) -> Self {
+        Self::DTBErr(value)
+    }
+}
+
+impl From<ContentErr> for FDTErr {
+    fn from(value: ContentErr) -> Self {
+        Self::ContentErr(value)
+    }
+}

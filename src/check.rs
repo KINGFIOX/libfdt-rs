@@ -26,6 +26,37 @@ impl FdtHeader {
         if assume(Assume::ValidDtb) {
             return Ok(());
         }
+        todo!()
+    }
+
+    pub fn ro_probe(&self) -> Result<(), FDTErr> {
+        if assume(Assume::ValidDtb) {
+            return Ok(());
+        }
+
+        // if ((uintptr_t)fdt & 7) return -FDT_ERR_ALIGNMENT;  // 当从 raw pointer -> ref 的时候, 就已经 check 了
+
+        if self.version.to_le() == MAGIC {
+            if !assume(Assume::Latest) {
+                if self.version.to_le() < config::FIRST_SUPPORTED_VERSION {
+                    return Err(Into::into(DTBErr::BadVersion));
+                }
+                if self.version.to_le() > config::LAST_SUPPORTED_VERSION {
+                    return Err(Into::into(DTBErr::BadVersion));
+                }
+            }
+        } else if self.version.to_le() == !MAGIC {
+            // unfinished sequential-write blob
+            if !assume(Assume::ValidInput) && self.size_dt_struct.to_le() == 0 {
+                return Err(Into::into(ParamErr::BadState));
+            }
+        } else {
+            return Err(Into::into(DTBErr::BadVersion));
+        }
+
+        if self.totalsize.to_le() >= (i32::MAX as u32) {
+            return Err(Into::into(DTBErr::Truncated));
+        }
         Ok(())
     }
 }
