@@ -1,9 +1,7 @@
 #![no_std]
 
-mod config;
 mod errors;
 mod spec;
-mod internal;
 
 #[allow(unused)]
 pub use errors::*;
@@ -11,8 +9,6 @@ pub use errors::*;
 #[allow(unused)]
 pub use spec::*;
 
+// pub mod config;
 #[allow(unused)]
-pub use config::*;
-
-#[allow(unused)]
-pub use internal::*;
+mod config;

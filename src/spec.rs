@@ -1,37 +1,6 @@
 //! Definitions of structs and enums from the device tree specification.
 //! reference to https://github.com/riscv-software-src/opensbi/blob/master/lib/utils/libfdt/fdt.h
 
-/* ---------- ---------- limit ---------- ---------- */
-
-pub const FDT_MAX_PHANDLE: u32 = 0xfffffffe;
-
-/* ---------- ---------- version fdt size ---------- ---------- */
-
-pub const FDT_V1_SIZE: usize = 7 * size_of::<fdt32>();
-pub const FDT_V2_SIZE: usize = FDT_V1_SIZE + size_of::<fdt32>();
-pub const FDT_V3_SIZE: usize = FDT_V2_SIZE + size_of::<fdt32>();
-pub const FDT_V16_SIZE: usize = FDT_V3_SIZE;
-pub const FDT_V17_SIZE: usize = FDT_V16_SIZE + size_of::<fdt32>();
-
-/* ---------- ---------- magic number ---------- ---------- */
-
-pub const MAGIC: u32 = 0xd00d_feed;
-
-/* ---------- ---------- big endian ---------- ---------- */
-
-/// A simple struct to represent a device tree.(big endian)
-#[allow(non_camel_case_types)]
-#[repr(C)]
-#[derive(Clone, Copy)]
-pub struct fdt32(u32);
-
-#[allow(non_camel_case_types)]
-#[repr(C)]
-#[derive(Clone, Copy)]
-pub struct fdt64(u64);
-
-/* ---------- ---------- some structure ---------- ---------- */
-
 /// .
 #[repr(C)]
 pub struct FdtHeader {
@@ -89,3 +58,34 @@ pub struct FdtProperty<'a> {
     pub nameoff: fdt32,
     pub data: &'a [u8],
 }
+
+/* ---------- ---------- limit ---------- ---------- */
+
+pub const FDT_MAX_PHANDLE: u32 = 0xfffffffe;
+
+/* ---------- ---------- version fdt size ---------- ---------- */
+
+pub const FDT_V1_SIZE: usize = 7 * size_of::<fdt32>();
+pub const FDT_V2_SIZE: usize = FDT_V1_SIZE + size_of::<fdt32>();
+pub const FDT_V3_SIZE: usize = FDT_V2_SIZE + size_of::<fdt32>();
+pub const FDT_V16_SIZE: usize = FDT_V3_SIZE;
+pub const FDT_V17_SIZE: usize = FDT_V16_SIZE + size_of::<fdt32>();
+
+/* ---------- ---------- magic number ---------- ---------- */
+
+pub const MAGIC: u32 = 0xd00d_feed;
+
+/* ---------- ---------- big endian ---------- ---------- */
+
+/// A simple struct to represent a device tree.(big endian)
+#[allow(non_camel_case_types)]
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct fdt32(u32);
+
+#[allow(non_camel_case_types)]
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct fdt64(u64);
+
+/* ---------- ---------- some structure ---------- ---------- */
