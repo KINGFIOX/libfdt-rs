@@ -78,3 +78,5 @@ pub const FDT_V17_SIZE: usize = FDT_V16_SIZE + size_of::<fdt32>();
 pub const MAGIC: u32 = 0xd00d_feed;
 
 /* ---------- ---------- some structure ---------- ---------- */
+
+pub const TAGSIZE: usize = size_of::<fdt32>();

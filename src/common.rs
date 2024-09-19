@@ -1,3 +1,4 @@
+//! This file is another utils but should use FdtHeader
 //! provide: suffix __ without assume_
 //! provide: suffix _ with assume_
 

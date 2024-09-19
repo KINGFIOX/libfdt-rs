@@ -7,6 +7,14 @@ mod utils;
 mod ro;
 mod assume;
 mod common;
+mod extrn_rs; // extern functions
+mod extrn_c;
+
+#[allow(unused)]
+pub use extrn_c::*;
+
+#[allow(unused)]
+pub use extrn_rs::*;
 
 #[allow(unused)]
 use assume::*;
