@@ -1,4 +1,5 @@
 //! this file defined some assume, assume means 默认地, 造句: 高中老师默认初中老师教了 xxx
+//! provide: assume_ return bool
 
 use crate::config::ASSUME;
 
@@ -78,6 +79,6 @@ pub enum Assume {
     LibFDTFlawless,
 }
 
-pub fn assume(assm: Assume) -> bool {
+pub fn assume_(assm: Assume) -> bool {
     ASSUME.contains(&assm)
 }
