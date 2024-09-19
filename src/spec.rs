@@ -28,17 +28,17 @@ pub struct FdtHeader {
     pub size_dt_struct: fdt32,
 }
 
-pub mod token {
+pub enum Token {
     /// Start node: full name
-    pub const FDT_BEGIN_NODE: u32 = 0x1;
+    FdtBeginNode = 0x1,
     /// End node
-    pub const FDT_END_NODE: u32 = 0x2;
+    FdtEndNode = 0x2,
     /// Property: name off, size, content
-    pub const FDT_PROP: u32 = 0x3;
+    FdtProp = 0x3,
     /// nop
-    pub const FDT_NOP: u32 = 0x4;
+    FdtNop = 0x4,
     /// end
-    pub const FDT_END: u32 = 0x9;
+    FdtEnd = 0x9,
 }
 
 #[repr(C)]

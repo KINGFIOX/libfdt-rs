@@ -1,13 +1,13 @@
 //! Definitions of structs and enums from the device tree specification.
 //! reference to https://github.com/riscv-software-src/opensbi/blob/master/lib/utils/libfdt/libfdt.h
 
-pub enum FDTErr {
+pub enum FdtErr {
     InfoErr(InfoErr),
     ParamErr(ParamErr),
     DTBErr(DTBErr),
-    /* FDT_ERR_INTERNAL: libfdt has failed an internal assertion.
-     * Should never be returned, if it is, it indicates a bug in
-     * libfdt itself. */
+    /*  FDT_ERR_INTERNAL: libfdt has failed an internal assertion.
+     *  Should never be returned, if it is, it indicates a bug in
+     *  libfdt itself. */
     Internal,
     ContentErr(ContentErr),
 }
@@ -97,25 +97,25 @@ pub enum ContentErr {
     Alignment,
 }
 
-impl From<InfoErr> for FDTErr {
+impl From<InfoErr> for FdtErr {
     fn from(value: InfoErr) -> Self {
         Self::InfoErr(value)
     }
 }
 
-impl From<ParamErr> for FDTErr {
+impl From<ParamErr> for FdtErr {
     fn from(value: ParamErr) -> Self {
         Self::ParamErr(value)
     }
 }
 
-impl From<DTBErr> for FDTErr {
+impl From<DTBErr> for FdtErr {
     fn from(value: DTBErr) -> Self {
         Self::DTBErr(value)
     }
 }
 
-impl From<ContentErr> for FDTErr {
+impl From<ContentErr> for FdtErr {
     fn from(value: ContentErr) -> Self {
         Self::ContentErr(value)
     }
