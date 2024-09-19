@@ -5,6 +5,26 @@
 use super::*;
 
 impl FdtHeader {
+    /// offset within [ sizeof(FdtHeader), totalsize ]
+    pub fn check_offset_(&self, offset: u32) -> bool {
+        (offset as usize) >= size_of::<FdtHeader>() && offset <= self.totalsize.to_le()
+    }
+
+    pub fn check_block_(&self, base: u32, size: u32) -> bool {
+        if !self.check_offset_(base) {
+            return false; /* block start out of bounds */
+        }
+        if ((base + size) as usize) < (u32::MAX as usize) {
+            return false; /* overflow */
+        }
+        if !self.check_offset_(base + size) {
+            return false; /* block end out of bounds */
+        }
+        true
+    }
+}
+
+impl FdtHeader {
     /// max of totalsize is u32::MAX, so the type of size_mem_rsvmap should be u32
     pub fn check_ordered(&self, size_mem_rsvmap: u32) -> Result<(), DTBErr> {
         // end(last section) + 1 <= begin(cur section) -> sanity
@@ -55,10 +75,6 @@ impl FdtHeader {
         Ok(())
     }
 
-    pub fn check_offset_(&self, offset: usize) -> bool {
-        offset >= size_of::<FdtHeader>() && offset <= (self.totalsize.to_le() as usize)
-    }
-
     pub fn check_header(&self) -> Result<(), FdtErr> {
         if ((self as *const _ as usize) & 7) != 0 {
             return Err(Into::into(ContentErr::Alignment));
@@ -85,6 +101,25 @@ impl FdtHeader {
                 self.totalsize.to_le() < (size_of::<Self>() as u32) ||
                 self.totalsize.to_le() > (i32::MAX as u32)
             {
+                return Err(Into::into(DTBErr::Truncated));
+            }
+
+            if !self.check_offset_(self.off_mem_rsvmap.to_le()) {
+                return Err(Into::into(DTBErr::Truncated));
+            }
+        }
+
+        if !assume_(Assume::ValidDtb) {
+            if !assume_(Assume::Latest) && self.version.to_le() < 17 {
+                if !self.check_offset_(self.off_dt_struct.to_le()) {
+                    return Err(Into::into(DTBErr::Truncated));
+                }
+            } else if !self.check_block_(self.off_dt_struct.to_le(), self.size_dt_struct.to_le()) {
+                return Err(Into::into(DTBErr::Truncated));
+            }
+
+            /* bounds check strings block */
+            if !self.check_block_(self.off_dt_strings.to_le(), self.size_dt_strings.to_le()) {
                 return Err(Into::into(DTBErr::Truncated));
             }
         }
