@@ -1,4 +1,4 @@
-pub fn align8(val: usize) -> usize {
+pub fn align8(val: u32) -> u32 {
     (val + 7) & !7
 }
 

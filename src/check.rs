@@ -1,13 +1,14 @@
 //! This file defined some checks the sanity of fdt
 //! provide: check_xxx_ return bool
 //! provide: check_xxx return Result<(), FdtErr>
+//! provide: without suffix _ return Result
 
 use super::*;
 
 impl FdtHeader {
     /// offset within [ sizeof(FdtHeader), totalsize ]
     pub fn check_offset_(&self, offset: u32) -> bool {
-        (offset as usize) >= size_of::<FdtHeader>() && offset <= self.totalsize.to_le()
+        offset >= self.hdr_size_() && offset <= self.totalsize.to_le()
     }
 
     pub fn check_block_(&self, base: u32, size: u32) -> bool {
@@ -28,7 +29,7 @@ impl FdtHeader {
     /// max of totalsize is u32::MAX, so the type of size_mem_rsvmap should be u32
     pub fn check_ordered(&self, size_mem_rsvmap: u32) -> Result<(), DTBErr> {
         // end(last section) + 1 <= begin(cur section) -> sanity
-        if align8(size_of::<Self>()) > (self.off_mem_rsvmap.to_le() as usize) {
+        if align8(self.hdr_size_()) > self.off_mem_rsvmap.to_le() {
             return Err(DTBErr::BadLayout);
         }
         if self.off_mem_rsvmap.to_le() + size_mem_rsvmap > self.off_dt_struct.to_le() {
@@ -98,7 +99,7 @@ impl FdtHeader {
 
         if !assume_(Assume::ValidDtb) {
             if
-                self.totalsize.to_le() < (size_of::<Self>() as u32) ||
+                self.totalsize.to_le() < self.hdr_size_() ||
                 self.totalsize.to_le() > (i32::MAX as u32)
             {
                 return Err(Into::into(DTBErr::Truncated));
